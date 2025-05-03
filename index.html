@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FB Video Downloader | Save Facebook Videos in HD</title>
+    <meta name="description" content="Download Facebook videos in HD quality for free. No registration required. Works on all devices.">
+    <meta name="keywords" content="facebook downloader, fb video saver, download facebook videos, facebook to mp4">
+    <style>
+        :root {
+            --primary: #1877F2;
+            --primary-dark: #166FE5;
+            --secondary: #42B72A;
+            --dark: #1C1E21;
+            --light: #F0F2F5;
+            --gray: #65676B;
+            --white: #FFFFFF;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --radius: 12px;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', sans-serif;
+        }
+
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background: var(--white);
+            box-shadow: var(--shadow);
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo i {
+            font-size: 28px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+        }
+
+        .nav-links a {
+            color: var(--dark);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .hero {
+            text-align: center;
+            padding: 60px 0 40px;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            color: var(--gray);
+            max-width: 700px;
+            margin: 0 auto 30px;
+        }
+
+        .downloader-card {
+            background: var(--white);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 30px;
+            max-width: 800px;
+            margin: 0 auto 50px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        #video-url {
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: var(--radius);
+            font-size: 16px;
+            width: 100%;
+            transition: var(--transition);
+        }
+
+        #video-url:focus {
+            border-color: var(--primary);
+            outline: none;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            background: var(--primary);
+            color: var(--white);
+            border: none;
+            border-radius: var(--radius);
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .btn i {
+            font-size: 20px;
+        }
+
+        #result {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: var(--radius);
+            display: none;
+        }
+
+        .success {
+            background: rgba(24, 119, 242, 0.1);
+            border-left: 4px solid var(--primary);
+        }
+
+        .error {
+            background: rgba(244, 67, 54, 0.1);
+            border-left: 4px solid #F44336;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin: 60px 0;
+        }
+
+        .feature-card {
+            background: var(--white);
+            padding: 30px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            font-size: 40px;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+
+        .feature-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+
+        .how-to {
+            background: var(--white);
+            padding: 50px;
+            border-radius: var(--radius);
+            margin: 60px 0;
+            box-shadow: var(--shadow);
+        }
+
+        .how-to h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 1.8rem;
+        }
+
+        .steps {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .step {
+            flex: 1;
+            min-width: 250px;
+            max-width: 300px;
+            text-align: center;
+            padding: 25px;
+            border-radius: var(--radius);
+            background: var(--light);
+        }
+
+        .step-number {
+            width: 50px;
+            height: 50px;
+            background: var(--primary);
+            color: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 20px;
+            margin: 0 auto 15px;
+        }
+
+        .faq {
+            margin: 60px 0;
+        }
+
+        .faq h2 {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .faq-item {
+            background: var(--white);
+            margin-bottom: 15px;
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .faq-question {
+            padding: 20px;
+            background: var(--primary);
+            color: var(--white);
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-answer {
+            padding: 0 20px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .faq-answer.active {
+            padding: 20px;
+            max-height: 500px;
+        }
+
+        footer {
+            background: var(--dark);
+            color: var(--white);
+            padding: 50px 0 20px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .footer-column h3 {
+            color: var(--white);
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: #ddd;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: var(--white);
+            padding-left: 5px;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #aaa;
+            font-size: 14px;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .downloader-card {
+                padding: 20px;
+            }
+            
+            .how-to {
+                padding: 30px 20px;
+            }
+        }
+
+        /* Font Awesome Icons (using CDN) */
+        @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css');
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <a href="#" class="logo">
+                    <i class="fab fa-facebook"></i>
+                    <span>FB Video Downloader</span>
+                </a>
+                <div class="nav-links">
+                    <a href="#features">Features</a>
+                    <a href="#how-to">How To</a>
+                    <a href="#faq">FAQ</a>
+                    <a href="#contact">Contact</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="hero">
+            <h1>Download Facebook Videos in HD Quality</h1>
+            <p>Save any public Facebook video to your device with our free online downloader. No registration required.</p>
+        </section>
+
+        <section class="downloader-card">
+            <div class="input-group">
+                <input type="url" id="video-url" placeholder="Paste Facebook video link here (e.g. https://www.facebook.com/...)" required>
+                <button class="btn" id="download-btn">
+                    <i class="fas fa-download"></i>
+                    Download Now
+                </button>
+            </div>
+            <div id="result"></div>
+        </section>
+
+        <section id="features" class="features">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-bolt"></i>
+                </div>
+                <h3>Lightning Fast</h3>
+                <p>Download videos in seconds with our high-speed servers. No waiting time or slow processing.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-hd"></i>
+                </div>
+                <h3>HD Quality</h3>
+                <p>Get videos in 720p, 1080p, or even 4K resolution when available. No quality loss.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-mobile-alt"></i>
+                </div>
+                <h3>All Devices</h3>
+                <p>Works perfectly on smartphones, tablets, and computers. No app installation needed.</p>
+            </div>
+        </section>
+
+        <section id="how-to" class="how-to">
+            <h2>How to Download Facebook Videos</h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Copy Video Link</h3>
+                    <p>Go to Facebook and copy the URL of the video you want to download.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Paste URL</h3>
+                    <p>Paste the Facebook video link in the input field above.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Download</h3>
+                    <p>Click the download button and save the video to your device.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="faq" class="faq">
+            <h2>Frequently Asked Questions</h2>
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Is this service free to use?</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>Yes, our Facebook video downloader is completely free to use with no hidden charges. You can download as many videos as you want without any limitations.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>What video formats are supported?</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>All videos are downloaded in MP4 format, which is compatible with all devices and media players. You can also choose different quality options if available.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Can I download private Facebook videos?</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>No, our tool only works with public videos that are accessible to everyone. Private videos require special permissions that we cannot bypass.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Is it legal to download Facebook videos?</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>Downloading videos for personal use is generally acceptable, but you should respect copyright laws. Don't redistribute downloaded content without permission from the original creator.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>FB Video Downloader</h3>
+                    <p>The fastest way to download videos from Facebook. No registration, no watermarks, just high-quality downloads.</p>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#how-to">How To</a></li>
+                        <li><a href="#faq">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Legal</h3>
+                    <ul class="footer-links">
+                        <li><a href="privacy.html">Privacy Policy</a></li>
+                        <li><a href="terms.html">Terms of Service</a></li>
+                        <li><a href="dmca.html">DMCA</a></li>
+                        <li><a href="contact.html">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Connect With Us</h3>
+                    <div class="social-links" style="display: flex; gap: 15px; font-size: 20px;">
+                        <a href="#" style="color: #fff;"><i class="fab fa-facebook"></i></a>
+                        <a href="#" style="color: #fff;"><i class="fab fa-twitter"></i></a>
+                        <a href="#" style="color: #fff;"><i class="fab fa-instagram"></i></a>
+                        <a href="#" style="color: #fff;"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; <span id="year"></span> FB Video Downloader. All rights reserved. This service is not affiliated with Facebook.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Simple JavaScript for demo purposes
+        document.getElementById('year').textContent = new Date().getFullYear();
+        
+        // FAQ toggle functionality
+        const faqQuestions = document.querySelectorAll('.faq-question');
+        faqQuestions.forEach(question => {
+            question.addEventListener('click', () => {
+                const answer = question.nextElementSibling;
+                answer.classList.toggle('active');
+                
+                const icon = question.querySelector('i');
+                if (answer.classList.contains('active')) {
+                    icon.classList.remove('fa-chevron-down');
+                    icon.classList.add('fa-chevron-up');
+                } else {
+                    icon.classList.remove('fa-chevron-up');
+                    icon.classList.add('fa-chevron-down');
+                }
+            });
+        });
+        
+        // Download button functionality (demo)
+        document.getElementById('download-btn').addEventListener('click', () => {
+            const url = document.getElementById('video-url').value;
+            const resultDiv = document.getElementById('result');
+            
+            if (!url) {
+                resultDiv.innerHTML = '<div class="error">Please enter a Facebook video URL</div>';
+                resultDiv.style.display = 'block';
+                return;
+            }
+            
+            // This is just a demo - in a real implementation you would need a backend service
+            resultDiv.innerHTML = `
+                <div class="success">
+                    <h3>Download Ready!</h3>
+                    <p>For demonstration purposes only. In a real implementation, this would provide an actual download link.</p>
+                    <p>To make this functional, you would need to:</p>
+                    <ol>
+                        <li>Set up a backend service (Node.js, PHP, Python)</li>
+                        <li>Implement video downloading functionality</li>
+                        <li>Handle the actual file download</li>
+                    </ol>
+                </div>
+            `;
+            resultDiv.style.display = 'block';
+        });
+    </script>
+</body>
+</html>
